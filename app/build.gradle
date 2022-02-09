@@ -82,7 +82,7 @@ dependencies {
     // Google Accompanist
 //    implementation "com.google.accompanist:accompanist-pager:0.20.3"
 //    implementation "com.google.accompanist:accompanist-pager-indicators:0.20.3"
-//    implementation "com.google.accompanist:accompanist-systemuicontroller:0.20.3"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.20.3"
 //    implementation "com.google.accompanist:accompanist-insets:0.20.3"
 //    implementation "com.google.accompanist:accompanist-flowlayout:0.20.3"
 

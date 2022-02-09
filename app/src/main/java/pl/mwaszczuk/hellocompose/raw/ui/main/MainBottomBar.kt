@@ -21,6 +21,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import pl.mwaszczuk.hellocompose.ui.theme.RedLight
@@ -31,9 +32,11 @@ import pl.mwaszczuk.hellocompose.ui.theme.RedLight
 @Composable
 fun MainBottomBar(
     navController: NavController,
+    currentRoute: String?
 ) {
     MainBottomNavController(
         navController = navController,
+        currentRoute = currentRoute,
         items = listOf(
             BottomNavigationItem.Dashboard,
             BottomNavigationItem.Profile,
@@ -51,13 +54,13 @@ fun MainBottomBar(
 @Composable
 fun MainBottomNavController(
     navController: NavController,
+    currentRoute: String?,
     items: List<BottomNavigationItem>
 ) {
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
     CustomBottomNavigation(
         modifier = Modifier.requiredHeight(56.dp),
         backgroundColor = White,
-        elevation = 4.dp,
+        elevation = 8.dp,
     ) {
         items.forEachIndexed { index, screen ->
             val currentIcon = screen.getIcon(currentRoute)
@@ -115,10 +118,11 @@ fun MainBottomNavController(
                         }
                     }
                     Text(
-                        modifier = Modifier.padding(top = 4.dp),
+                        modifier = Modifier,
                         text = stringResource(id = screen.name),
                         maxLines = 1,
-                        color = color.value
+                        color = color.value,
+                        fontSize = 12.sp
                     )
                 }
             }
@@ -156,6 +160,7 @@ fun CustomBottomNavigation(
 fun MainBottomNavControllerPreview() {
     MainBottomNavController(
         navController = rememberNavController(),
+        currentRoute = "",
         items = listOf(
             BottomNavigationItem.Dashboard,
             BottomNavigationItem.Profile,
