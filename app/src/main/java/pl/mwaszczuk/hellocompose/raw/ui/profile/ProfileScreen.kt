@@ -9,20 +9,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import pl.mwaszczuk.hellocompose.R
-import pl.mwaszczuk.hellocompose.raw.ui.dashboard.DashboardScreen
 import pl.mwaszczuk.hellocompose.raw.ui.main.Destination
 import pl.mwaszczuk.hellocompose.ui.theme.RedLight
 import pl.mwaszczuk.hellocompose.ui.theme.White
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel(), // shared
+    viewModel: ProfileViewModel,
     navController: NavController
 ) {
 
@@ -64,10 +62,4 @@ fun ProfileScreen(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    DashboardScreen()
 }

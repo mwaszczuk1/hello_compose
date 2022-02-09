@@ -25,7 +25,7 @@ import pl.mwaszczuk.hellocompose.ui.theme.Gray
 
 @Composable
 fun AchievementsScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel
 ) {
     val achievements by viewModel.achievements.collectAsState()
 

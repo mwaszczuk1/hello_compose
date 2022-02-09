@@ -12,7 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -23,6 +24,7 @@ import pl.mwaszczuk.hellocompose.raw.ui.notifications.NotificationsScreen
 import pl.mwaszczuk.hellocompose.raw.ui.profile.ProfileScreen
 import pl.mwaszczuk.hellocompose.raw.ui.profile.ProfileViewModel
 import pl.mwaszczuk.hellocompose.raw.ui.settings.SettingsScreen
+import pl.mwaszczuk.hellocompose.raw.ui.showname.AccountDetailsScreen
 import pl.mwaszczuk.hellocompose.util.*
 
 @Composable
@@ -42,7 +44,7 @@ fun MainNavHost() {
     Scaffold(
         bottomBar = {
             if (currentRoute.value != Destination.Achievements.route &&
-                currentRoute.value != Destination.ChangeName.route
+                currentRoute.value != Destination.AccountDetails.route
             ) {
                 MainBottomBar(
                     navController = navController,
@@ -155,13 +157,62 @@ fun MainNavHost() {
                     arguments = emptyList(),
                     deepLinks = emptyList(),
                     enterTransition = { initial, target ->
-                        mainScreenEnterTransition(initial, target)
+                        if (initial.destination.route == Destination.Achievements.route) {
+                            slideIntoContainer(
+                                AnimatedContentScope.SlideDirection.Up,
+                                animationSpec = tween(400)
+                            )
+                        } else {
+                            mainScreenEnterTransition(initial, target)
+                        }
                     },
                     exitTransition = { initial, target ->
-                        mainScreenExitTransition(initial, target)
+                        if (target.destination.route == Destination.Achievements.route) {
+                            slideOutOfContainer(
+                                AnimatedContentScope.SlideDirection.Down,
+                                animationSpec = tween(400)
+                            )
+                        } else {
+                            mainScreenExitTransition(initial, target)
+                        }
                     }
                 ) {
-                    SettingsScreen()
+                    SettingsScreen(navController = navController)
+                }
+
+                composable(
+                    route = Destination.AccountDetails.route,
+                    arguments = listOf(
+                        navArgument("name") {
+                            type = NavType.StringType
+                        },
+                        navArgument("surname") {
+                            type = NavType.StringType
+                            nullable = true
+                        },
+                        navArgument("accountType") {
+                            type = NavType.StringType
+                            defaultValue = "User"
+                        }
+                    ),
+                    deepLinks = emptyList(),
+                    enterTransition = { _, _ ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(400)
+                        )
+                    },
+                    exitTransition = { _, _ ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Up,
+                            animationSpec = tween(400)
+                        )
+                    }
+                ) {
+                    val name = it.arguments?.getString("name")!!
+                    val surname = it.arguments?.getString("surname")
+                    val accountType = it.arguments?.getString("accountType")!!
+                    AccountDetailsScreen(name, surname, accountType)
                 }
             }
         }
@@ -176,6 +227,6 @@ enum class Destination(val route: String) {
     Notifications("NOTIFICATIONS_DESTINATION"),
     Settings("SETTINGS_DESTINATION"),
 
-    ChangeName("CHANGE_NAME_DESTINATION"),
+    AccountDetails("ACCOUNT_DETAILS_DESTINATION/{name}?surname={surname}&accountType={accountType}"),
     Achievements("ACHIEVEMENTS_DESTINATION")
 }
