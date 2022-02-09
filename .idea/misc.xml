@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/compose-model-1644398756307.xml" value="0.25" />
+        <entry key="../../../../layout/compose-model-1644404295792.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404609497.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404681191.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404700749.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404717347.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404856030.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404862708.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404867883.xml" value="0.33826013513513514" />
+        <entry key="../../../../layout/compose-model-1644404871424.xml" value="0.33826013513513514" />
+        <entry key="app/src/main/res/drawable/ic_baseline_dashboard_24.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.2135" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

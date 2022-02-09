@@ -9,7 +9,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "pl.mwaszczuk.bananas"
+        applicationId "pl.mwaszczuk.hellocompose"
         minSdk 23
         targetSdk 31
         versionCode 1

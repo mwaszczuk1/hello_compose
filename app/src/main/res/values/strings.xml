@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Hello Compose</string>
+
+    <string name="dashboard_screen_title">Dashboard</string>
+    <string name="profile_screen_title">Profile</string>
+    <string name="notifications_screen_title">Notifications</string>
+    <string name="settings_screen_title">Settings</string>
 </resources>
