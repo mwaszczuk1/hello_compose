@@ -1,9 +1,8 @@
 package pl.mwaszczuk.hellocompose.util
 
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.navigation.NavBackStackEntry
 import pl.mwaszczuk.hellocompose.raw.ui.main.Destination
 
 val mainScreensMap = listOf(
@@ -13,14 +12,14 @@ val mainScreensMap = listOf(
     4 to Destination.Settings.route
 )
 
-fun getMainScreenEnterTransition(): EnterTransitionAnim = { initial, target ->
+fun AnimatedContentScope<String>.mainScreenEnterTransition(initial: NavBackStackEntry, target: NavBackStackEntry): EnterTransition {
     val initialIndex = mainScreensMap.firstOrNull {
         initial.destination.route == it.second
     }?.first
     val targetIndex = mainScreensMap.firstOrNull {
         target.destination.route == it.second
     }?.first
-    if (initialIndex != null && targetIndex != null) {
+    return if (initialIndex != null && targetIndex != null) {
         when {
             initialIndex > targetIndex -> slideIntoContainer(
                 AnimatedContentScope.SlideDirection.Right,
@@ -37,14 +36,14 @@ fun getMainScreenEnterTransition(): EnterTransitionAnim = { initial, target ->
     }
 }
 
-fun getMainScreenExitTransition(): ExitTransitionAnim = { initial, target ->
+fun AnimatedContentScope<String>.mainScreenExitTransition(initial: NavBackStackEntry, target: NavBackStackEntry): ExitTransition {
     val initialIndex = mainScreensMap.firstOrNull {
         initial.destination.route?.contains(it.second) == true
     }?.first
     val targetIndex = mainScreensMap.firstOrNull {
         target.destination.route?.contains(it.second) == true
     }?.first
-    if (initialIndex != null && targetIndex != null) {
+    return if (initialIndex != null && targetIndex != null) {
         when {
             initialIndex > targetIndex -> slideOutOfContainer(
                 AnimatedContentScope.SlideDirection.Right,
