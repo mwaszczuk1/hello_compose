@@ -1,5 +1,6 @@
 package pl.mwaszczuk.hellocompose.raw.ui.settings
 
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
@@ -8,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +21,7 @@ import pl.mwaszczuk.hellocompose.ui.theme.White
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
+    startArchitectedActivity: () -> Unit,
     navController: NavController
 ) {
     val userName = viewModel.userName
@@ -29,6 +32,33 @@ fun SettingsScreen(
             .fillMaxSize(),
         contentAlignment = Alignment.BottomCenter
     ) {
+        OutlinedButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .align(Alignment.TopCenter),
+            onClick = {
+                startArchitectedActivity()
+            },
+            shape = RoundedCornerShape(24.dp),
+            contentPadding = PaddingValues(16.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = RedLight,
+                contentColor = White,
+                disabledBackgroundColor = RedLight,
+                disabledContentColor = White
+            ),
+            elevation = ButtonDefaults.elevation(
+                defaultElevation = 8.dp
+            ),
+            border = null
+        ) {
+            Text(
+                text = stringResource(R.string.start_architected_activity),
+                color = White
+            )
+        }
+
         OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.main
+package pl.mwaszczuk.hellocompose.ui.main
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
@@ -24,6 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import pl.mwaszczuk.hellocompose.mock.AnalyticsLogger
+import pl.mwaszczuk.hellocompose.navigation.NavigationManagerImpl
+import pl.mwaszczuk.hellocompose.navigation.Navigator
+import pl.mwaszczuk.hellocompose.raw.ui.main.BottomNavigationItem
 import pl.mwaszczuk.hellocompose.ui.theme.RedLight
 
 /**
@@ -31,17 +35,17 @@ import pl.mwaszczuk.hellocompose.ui.theme.RedLight
  */
 @Composable
 fun MainBottomBarArchitected(
-    navController: NavController,
+    navigator: Navigator,
     currentRoute: String?
 ) {
     MainBottomNavController(
-        navController = navController,
+        navigator = navigator,
         currentRoute = currentRoute,
         items = listOf(
-            BottomNavigationItem.Dashboard,
-            BottomNavigationItem.Profile,
-            BottomNavigationItem.Notifications,
-            BottomNavigationItem.Settings
+            BottomNavigationItemArchitected.Dashboard,
+            BottomNavigationItemArchitected.Profile,
+            BottomNavigationItemArchitected.Notifications,
+            BottomNavigationItemArchitected.Settings
         )
     )
 }
@@ -53,9 +57,9 @@ fun MainBottomBarArchitected(
  */
 @Composable
 fun MainBottomNavController(
-    navController: NavController,
+    navigator: Navigator,
     currentRoute: String?,
-    items: List<BottomNavigationItem>
+    items: List<BottomNavigationItemArchitected>
 ) {
     CustomBottomNavigation(
         modifier = Modifier.requiredHeight(56.dp),
@@ -68,15 +72,15 @@ fun MainBottomNavController(
                 contentAlignment = Alignment.TopCenter,
                 modifier = Modifier
                     .selectable(
-                        selected = currentRoute == screen.destinationRoute,
-                        onClick = { navController.navigate(screen.destinationRoute) },
+                        selected = currentRoute == screen.destination.route,
+                        onClick = { navigator.navigateTo(screen.destination) },
                         role = Role.Tab
                     )
                     .fillMaxHeight()
                     .weight(1f)
             ) {
                 androidx.compose.animation.AnimatedVisibility(
-                    visible = currentRoute == screen.destinationRoute
+                    visible = currentRoute == screen.destination.baseRoute
                 ) {
                     Divider(
                         modifier = Modifier
@@ -98,7 +102,7 @@ fun MainBottomNavController(
                 ) {
 
                     val color = animateColorAsState(
-                        targetValue = if (currentRoute == screen.destinationRoute) {
+                        targetValue = if (currentRoute == screen.destination.baseRoute) {
                             RedLight
                         } else {
                             Gray
@@ -159,13 +163,13 @@ fun CustomBottomNavigation(
 @Composable
 fun MainBottomNavControllerPreview() {
     MainBottomNavController(
-        navController = rememberNavController(),
+        navigator = Navigator(AnalyticsLogger(), NavigationManagerImpl()),
         currentRoute = "",
         items = listOf(
-            BottomNavigationItem.Dashboard,
-            BottomNavigationItem.Profile,
-            BottomNavigationItem.Notifications,
-            BottomNavigationItem.Settings
+            BottomNavigationItemArchitected.Dashboard,
+            BottomNavigationItemArchitected.Profile,
+            BottomNavigationItemArchitected.Notifications,
+            BottomNavigationItemArchitected.Settings
         )
     )
 }

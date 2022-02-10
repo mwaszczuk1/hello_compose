@@ -1,5 +1,6 @@
 package pl.mwaszczuk.hellocompose
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,9 +28,14 @@ class MainActivity : ComponentActivity() {
                         darkIcons = useDarkIcons
                     )
                 }
-                MainNavHost()
+                MainNavHost { startArchitectedActivity() }
             }
         }
+    }
+
+    private fun startArchitectedActivity() {
+        val intent = Intent(this, MainActivityArchitected::class.java)
+        startActivity(intent)
     }
 }
 

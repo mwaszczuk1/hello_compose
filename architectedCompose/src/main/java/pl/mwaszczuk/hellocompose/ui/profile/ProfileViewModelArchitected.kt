@@ -1,15 +1,19 @@
-package pl.mwaszczuk.hellocompose.raw.ui.profile
+package pl.mwaszczuk.hellocompose.ui.profile
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import pl.mwaszczuk.hellocompose.navigation.Navigator
+import pl.mwaszczuk.hellocompose.navigation.destinations.ProfileNavGraph
 import pl.mwaszczuk.hellocompose.raw.ui.model.Achievement
 import pl.mwaszczuk.hellocompose.rawCompose.R
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModelArchitected @Inject constructor() : ViewModel() {
+class ProfileViewModelArchitected @Inject constructor(
+    private val navigator: Navigator
+) : ViewModel() {
 
     private val achievementsMock = listOf(
         Achievement(
@@ -33,4 +37,10 @@ class ProfileViewModelArchitected @Inject constructor() : ViewModel() {
     val achievements = _achievements.asStateFlow()
 
     val userName = "Marek"
+
+    fun navigateToAchievements() {
+        navigator.navigateTo(
+            ProfileNavGraph.Achievements()
+        )
+    }
 }

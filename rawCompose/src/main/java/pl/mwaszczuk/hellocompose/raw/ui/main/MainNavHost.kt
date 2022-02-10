@@ -1,5 +1,7 @@
 package pl.mwaszczuk.hellocompose.raw.ui.main
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -28,7 +31,10 @@ import pl.mwaszczuk.hellocompose.util.mainScreenEnterTransition
 import pl.mwaszczuk.hellocompose.util.mainScreenExitTransition
 
 @Composable
-fun MainNavHost() {
+fun MainNavHost(
+    startArchitectedActivity: () -> Unit
+) {
+    val context = LocalContext.current
     val navController = rememberAnimatedNavController()
     val currentRoute = remember {
         mutableStateOf(navController.currentBackStackEntry?.destination?.route)
@@ -174,7 +180,10 @@ fun MainNavHost() {
                     }
                 }
             ) {
-                SettingsScreen(navController = navController)
+                SettingsScreen(
+                    navController = navController,
+                    startArchitectedActivity = startArchitectedActivity
+                )
             }
 
             composable(

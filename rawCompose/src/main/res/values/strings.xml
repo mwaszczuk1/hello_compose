@@ -10,4 +10,5 @@
 
     <string name="hello_user">Hello, %1$s</string>
     <string name="show_account_details">Show account details</string>
+    <string name="start_architected_activity">Start architected Activity</string>
 </resources>

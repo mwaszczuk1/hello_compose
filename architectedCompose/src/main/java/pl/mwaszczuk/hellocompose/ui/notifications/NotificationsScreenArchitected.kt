@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.notifications
+package pl.mwaszczuk.hellocompose.ui.notifications
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

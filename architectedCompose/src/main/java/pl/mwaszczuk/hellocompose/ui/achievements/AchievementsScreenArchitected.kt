@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.achievements
+package pl.mwaszczuk.hellocompose.ui.achievements
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -18,12 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.mwaszczuk.hellocompose.raw.ui.model.Achievement
-import pl.mwaszczuk.hellocompose.raw.ui.profile.ProfileViewModel
+import pl.mwaszczuk.hellocompose.ui.profile.ProfileViewModelArchitected
 import pl.mwaszczuk.hellocompose.ui.theme.Gray
 
 @Composable
 fun AchievementsScreenArchitected(
-    viewModel: ProfileViewModel
+    viewModel: ProfileViewModelArchitected
 ) {
     val achievements by viewModel.achievements.collectAsState()
 

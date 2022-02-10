@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.dashboard
+package pl.mwaszczuk.hellocompose.ui.dashboard
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pl.mwaszczuk.hellocompose.raw.ui.dashboard.DashboardScreen
 import pl.mwaszczuk.hellocompose.rawCompose.R
 import pl.mwaszczuk.hellocompose.ui.theme.RedLight
 

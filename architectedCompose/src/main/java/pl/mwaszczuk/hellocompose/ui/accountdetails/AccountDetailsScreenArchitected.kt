@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.accountdetails
+package pl.mwaszczuk.hellocompose.ui.accountdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
