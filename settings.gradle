@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Hello Compose"
 include ':app'
+include ':architectedCompose'
+include ':rawCompose'

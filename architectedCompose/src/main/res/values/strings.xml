@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Hello Compose</string>
+
+    <string name="dashboard_screen_title">Dashboard</string>
+    <string name="profile_screen_title">Profile</string>
+    <string name="notifications_screen_title">Notifications</string>
+    <string name="settings_screen_title">Settings</string>
+
+    <string name="achievements_screen_title">Achievements</string>
+
+    <string name="hello_user">Hello, %1$s</string>
+    <string name="show_account_details">Show account details</string>
+</resources>

@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
@@ -9,7 +9,6 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "pl.mwaszczuk.hellocompose"
         minSdk 23
         targetSdk 31
         versionCode 1
@@ -52,15 +51,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    hilt {
-        enableAggregatingTask = true
-    }
 }
 
 dependencies {
-
-    api project(path: ':rawCompose')
-    api project(path: ':architectedCompose')
     // Android Core Dependencies
     implementation "androidx.core:core-ktx:1.7.0"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
