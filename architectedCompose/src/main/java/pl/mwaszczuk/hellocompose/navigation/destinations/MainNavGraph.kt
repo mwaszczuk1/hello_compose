@@ -10,10 +10,7 @@ import pl.mwaszczuk.hellocompose.ui.dashboard.DashboardScreenArchitected
 import pl.mwaszczuk.hellocompose.raw.ui.main.Destination
 import pl.mwaszczuk.hellocompose.ui.notifications.NotificationsScreenArchitected
 import pl.mwaszczuk.hellocompose.ui.settings.SettingsScreenArchitected
-import pl.mwaszczuk.hellocompose.util.EnterTransitionAnim
-import pl.mwaszczuk.hellocompose.util.ExitTransitionAnim
-import pl.mwaszczuk.hellocompose.util.mainScreenEnterTransition
-import pl.mwaszczuk.hellocompose.util.mainScreenExitTransition
+import pl.mwaszczuk.hellocompose.util.*
 
 class MainNavGraph : NavigationGraph() {
 
@@ -50,9 +47,9 @@ class MainNavGraph : NavigationGraph() {
             )
 
         override val enterTransition: EnterTransitionAnim
-            get() = { initial, target -> mainScreenEnterTransition(initial, target) }
+            get() = { initial, target -> mainScreenEnterTransitionArchitected(initial, target) }
         override val exitTransition: ExitTransitionAnim
-            get() = { initial, target -> mainScreenExitTransition(initial, target) }
+            get() = { initial, target -> mainScreenExitTransitionArchitected(initial, target) }
     }
 
     class Notifications : NavigationAction() {
@@ -67,9 +64,9 @@ class MainNavGraph : NavigationGraph() {
             )
 
         override val enterTransition: EnterTransitionAnim
-            get() = { initial, target -> mainScreenEnterTransition(initial, target) }
+            get() = { initial, target -> mainScreenEnterTransitionArchitected(initial, target) }
         override val exitTransition: ExitTransitionAnim
-            get() = { initial, target -> mainScreenExitTransition(initial, target) }
+            get() = { initial, target -> mainScreenExitTransitionArchitected(initial, target) }
     }
 
     class Settings : NavigationAction() {
@@ -85,24 +82,24 @@ class MainNavGraph : NavigationGraph() {
 
         override val enterTransition: EnterTransitionAnim
             get() = { initial, target ->
-                if (initial.destination.route == Destination.AccountDetails.route) {
+                if (initial.destination.route == ACCOUNT_DETAILS_DESTINATION) {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Up,
                         animationSpec = tween(400)
                     )
                 } else {
-                    mainScreenEnterTransition(initial, target)
+                    mainScreenEnterTransitionArchitected(initial, target)
                 }
             }
         override val exitTransition: ExitTransitionAnim
             get() = { initial, target ->
-                if (target.destination.route == Destination.AccountDetails.route) {
+                if (target.destination.route == ACCOUNT_DETAILS_DESTINATION) {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Down,
                         animationSpec = tween(400)
                     )
                 } else {
-                    mainScreenExitTransition(initial, target)
+                    mainScreenExitTransitionArchitected(initial, target)
                 }
             }
     }
@@ -135,6 +132,20 @@ class MainNavGraph : NavigationGraph() {
                 )
             }
         override val exitTransition: ExitTransitionAnim
+            get() = { _, _ ->
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(400)
+                )
+            }
+        override val popEnterTransition: PopEnterTransitionAnim
+            get() = { _, _ ->
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Down,
+                    animationSpec = tween(400)
+                )
+            }
+        override val popExitTransition: PopExitTransitionAnim
             get() = { _, _ ->
                 slideOutOfContainer(
                     AnimatedContentScope.SlideDirection.Up,

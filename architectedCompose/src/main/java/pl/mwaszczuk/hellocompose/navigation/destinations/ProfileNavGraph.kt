@@ -11,10 +11,7 @@ import pl.mwaszczuk.hellocompose.navigation.NavigationGraph
 import pl.mwaszczuk.hellocompose.ui.achievements.AchievementsScreenArchitected
 import pl.mwaszczuk.hellocompose.raw.ui.main.Destination
 import pl.mwaszczuk.hellocompose.ui.profile.ProfileScreenArchitected
-import pl.mwaszczuk.hellocompose.util.EnterTransitionAnim
-import pl.mwaszczuk.hellocompose.util.ExitTransitionAnim
-import pl.mwaszczuk.hellocompose.util.mainScreenEnterTransition
-import pl.mwaszczuk.hellocompose.util.mainScreenExitTransition
+import pl.mwaszczuk.hellocompose.util.*
 
 class ProfileNavGraph(private val navController: NavController) : NavigationGraph() {
 
@@ -52,24 +49,24 @@ class ProfileNavGraph(private val navController: NavController) : NavigationGrap
 
         override val enterTransition: EnterTransitionAnim
             get() = { initial, target ->
-                if (initial.destination.route == Destination.Achievements.route) {
+                if (initial.destination.route == ACHIEVEMENTS_DESTINATION) {
                     slideIntoContainer(
                         AnimatedContentScope.SlideDirection.Up,
                         animationSpec = tween(400)
                     )
                 } else {
-                    mainScreenEnterTransition(initial, target)
+                    mainScreenEnterTransitionArchitected(initial, target)
                 }
             }
         override val exitTransition: ExitTransitionAnim
             get() = { initial, target ->
-                if (target.destination.route == Destination.Achievements.route) {
+                if (target.destination.route == ACHIEVEMENTS_DESTINATION) {
                     slideOutOfContainer(
                         AnimatedContentScope.SlideDirection.Down,
                         animationSpec = tween(400)
                     )
                 } else {
-                    mainScreenExitTransition(initial, target)
+                    mainScreenExitTransitionArchitected(initial, target)
                 }
             }
     }
@@ -79,6 +76,35 @@ class ProfileNavGraph(private val navController: NavController) : NavigationGrap
             get() = ACHIEVEMENTS_DESTINATION
         override val label: String
             get() = "Achievements"
+
+        override val enterTransition: EnterTransitionAnim
+            get() = { _, _ ->
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Down,
+                    animationSpec = tween(400)
+                )
+            }
+        override val exitTransition: ExitTransitionAnim
+            get() = { _, _ ->
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(400)
+                )
+            }
+        override val popEnterTransition: PopEnterTransitionAnim
+            get() = { _, _ ->
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Down,
+                    animationSpec = tween(400)
+                )
+            }
+        override val popExitTransition: PopExitTransitionAnim
+            get() = { _, _ ->
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(400)
+                )
+            }
     }
 
     companion object {

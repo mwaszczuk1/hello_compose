@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import pl.mwaszczuk.hellocompose.extensions.startActivity
@@ -33,17 +34,23 @@ private suspend fun execute(
 ) {
     when (navCommand) {
         NavigationCommand.Back -> {
-            navController.navigateUp()
+            val backStackCount = navController.backQueue.count { entry ->
+                entry.destination !is NavGraph
+            }
+            if (backStackCount == 1) {
+                (context as? Activity)?.finish()
+            } else {
+                navController.navigateUp()
+            }
         }
-
         is NavigationCommand.Navigate -> {
             navigator.onNavigationChanged(navCommand.navAction)
             if (navController.currentDestination?.route != navCommand.navAction.route) {
-                    navController.navigate(
-                        route = navCommand.navRoute,
-                        navOptions = navCommand.navOptions,
-                        navigatorExtras = navCommand.navAction.navigatorExtras
-                    )
+                navController.navigate(
+                    route = navCommand.navRoute,
+                    navOptions = navCommand.navOptions,
+                    navigatorExtras = navCommand.navAction.navigatorExtras
+                )
             }
         }
         is NavigationCommand.PopUpTo -> navController.popBackStack(
