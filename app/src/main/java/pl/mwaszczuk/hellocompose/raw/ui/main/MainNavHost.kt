@@ -2,6 +2,7 @@ package pl.mwaszczuk.hellocompose.raw.ui.main
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,23 +25,20 @@ import pl.mwaszczuk.hellocompose.raw.ui.notifications.NotificationsScreen
 import pl.mwaszczuk.hellocompose.raw.ui.profile.ProfileScreen
 import pl.mwaszczuk.hellocompose.raw.ui.profile.ProfileViewModel
 import pl.mwaszczuk.hellocompose.raw.ui.settings.SettingsScreen
-import pl.mwaszczuk.hellocompose.raw.ui.showname.AccountDetailsScreen
+import pl.mwaszczuk.hellocompose.raw.ui.accountdetails.AccountDetailsScreen
 import pl.mwaszczuk.hellocompose.util.*
 
 @Composable
 fun MainNavHost() {
     val navController = rememberAnimatedNavController()
-
     val currentRoute = remember {
         mutableStateOf(navController.currentBackStackEntry?.destination?.route)
     }
-
     LaunchedEffect(key1 = true) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             currentRoute.value = destination.route
         }
     }
-
     Scaffold(
         bottomBar = {
             if (currentRoute.value != Destination.Achievements.route &&
@@ -52,108 +50,37 @@ fun MainNavHost() {
                 )
             }
         }
-    ) { scaffoldPaddings ->
-        Box(
+    ) { padding ->
+        AnimatedNavHost(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(scaffoldPaddings)
+                .padding(padding),
+            navController = navController,
+            startDestination = Destination.Dashboard.route,
+            route = Destination.MainNavGraph.route
         ) {
-            AnimatedNavHost(
-                navController = navController,
-                startDestination = Destination.Dashboard.route,
-                route = Destination.MainNavGraph.route
+            composable(
+                route = Destination.Dashboard.route,
+                arguments = emptyList(),
+                deepLinks = emptyList(),
+                enterTransition = { initial, target ->
+                    mainScreenEnterTransition(initial, target)
+                },
+                exitTransition = { initial, target ->
+                    mainScreenExitTransition(initial, target)
+                },
+                popEnterTransition = null,
+                popExitTransition = null
+            ) {
+                DashboardScreen()
+            }
+
+            navigation(
+                startDestination = Destination.Profile.route,
+                route = Destination.ProfileNavGraph.route
             ) {
                 composable(
-                    route = Destination.Dashboard.route,
-                    arguments = emptyList(),
-                    deepLinks = emptyList(),
-                    enterTransition = { initial, target ->
-                        mainScreenEnterTransition(initial, target)
-                    },
-                    exitTransition = { initial, target ->
-                        mainScreenExitTransition(initial, target)
-                    }
-                ) {
-                    DashboardScreen()
-                }
-
-                navigation(
-                    startDestination = Destination.Profile.route,
-                    route = Destination.ProfileNavGraph.route
-                ) {
-                    composable(
-                        route = Destination.Profile.route,
-                        arguments = emptyList(),
-                        deepLinks = emptyList(),
-                        enterTransition = { initial, target ->
-                            if (initial.destination.route == Destination.Achievements.route) {
-                                slideIntoContainer(
-                                    AnimatedContentScope.SlideDirection.Up,
-                                    animationSpec = tween(400)
-                                )
-                            } else {
-                                mainScreenEnterTransition(initial, target)
-                            }
-                        },
-                        exitTransition = { initial, target ->
-                            if (target.destination.route == Destination.Achievements.route) {
-                                slideOutOfContainer(
-                                    AnimatedContentScope.SlideDirection.Down,
-                                    animationSpec = tween(400)
-                                )
-                            } else {
-                                mainScreenExitTransition(initial, target)
-                            }
-                        }
-                    ) {
-                        val rootEntry =
-                            remember { navController.getBackStackEntry(it.destination.parent?.id!!) }
-                        val sharedViewModel = hiltViewModel<ProfileViewModel>(rootEntry)
-                        ProfileScreen(
-                            viewModel = sharedViewModel,
-                            navController = navController
-                        )
-                    }
-                    composable(
-                        route = Destination.Achievements.route,
-                        arguments = emptyList(),
-                        deepLinks = emptyList(),
-                        enterTransition = { _, _ ->
-                            slideIntoContainer(
-                                AnimatedContentScope.SlideDirection.Down,
-                                animationSpec = tween(400)
-                            )
-                        },
-                        exitTransition = { _, _ ->
-                            slideOutOfContainer(
-                                AnimatedContentScope.SlideDirection.Up,
-                                animationSpec = tween(400)
-                            )
-                        }
-                    ) {
-                        val rootEntry =
-                            remember { navController.getBackStackEntry(it.destination.parent?.id!!) }
-                        val sharedViewModel = hiltViewModel<ProfileViewModel>(rootEntry)
-                        AchievementsScreen(viewModel = sharedViewModel)
-                    }
-                }
-
-                composable(
-                    route = Destination.Notifications.route,
-                    arguments = emptyList(),
-                    deepLinks = emptyList(),
-                    enterTransition = { initial, target ->
-                        mainScreenEnterTransition(initial, target)
-                    },
-                    exitTransition = { initial, target ->
-                        mainScreenExitTransition(initial, target)
-                    }
-                ) {
-                    NotificationsScreen()
-                }
-
-                composable(
-                    route = Destination.Settings.route,
+                    route = Destination.Profile.route,
                     arguments = emptyList(),
                     deepLinks = emptyList(),
                     enterTransition = { initial, target ->
@@ -177,24 +104,17 @@ fun MainNavHost() {
                         }
                     }
                 ) {
-                    SettingsScreen(navController = navController)
+                    val rootEntry =
+                        remember { navController.getBackStackEntry(it.destination.parent?.id!!) }
+                    val sharedViewModel = hiltViewModel<ProfileViewModel>(rootEntry)
+                    ProfileScreen(
+                        viewModel = sharedViewModel,
+                        navController = navController
+                    )
                 }
-
                 composable(
-                    route = Destination.AccountDetails.route,
-                    arguments = listOf(
-                        navArgument("name") {
-                            type = NavType.StringType
-                        },
-                        navArgument("surname") {
-                            type = NavType.StringType
-                            nullable = true
-                        },
-                        navArgument("accountType") {
-                            type = NavType.StringType
-                            defaultValue = "User"
-                        }
-                    ),
+                    route = Destination.Achievements.route,
+                    arguments = emptyList(),
                     deepLinks = emptyList(),
                     enterTransition = { _, _ ->
                         slideIntoContainer(
@@ -209,11 +129,88 @@ fun MainNavHost() {
                         )
                     }
                 ) {
-                    val name = it.arguments?.getString("name")!!
-                    val surname = it.arguments?.getString("surname")
-                    val accountType = it.arguments?.getString("accountType")!!
-                    AccountDetailsScreen(name, surname, accountType)
+                    val rootEntry =
+                        remember { navController.getBackStackEntry(it.destination.parent?.id!!) }
+                    val sharedViewModel = hiltViewModel<ProfileViewModel>(rootEntry)
+                    AchievementsScreen(viewModel = sharedViewModel)
                 }
+            }
+
+            composable(
+                route = Destination.Notifications.route,
+                arguments = emptyList(),
+                deepLinks = emptyList(),
+                enterTransition = { initial, target ->
+                    mainScreenEnterTransition(initial, target)
+                },
+                exitTransition = { initial, target ->
+                    mainScreenExitTransition(initial, target)
+                }
+            ) {
+                NotificationsScreen()
+            }
+
+            composable(
+                route = Destination.Settings.route,
+                arguments = emptyList(),
+                deepLinks = emptyList(),
+                enterTransition = { initial, target ->
+                    if (initial.destination.route == Destination.AccountDetails.route) {
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Up,
+                            animationSpec = tween(400)
+                        )
+                    } else {
+                        mainScreenEnterTransition(initial, target)
+                    }
+                },
+                exitTransition = { initial, target ->
+                    if (target.destination.route == Destination.AccountDetails.route) {
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(400)
+                        )
+                    } else {
+                        mainScreenExitTransition(initial, target)
+                    }
+                }
+            ) {
+                SettingsScreen(navController = navController)
+            }
+
+            composable(
+                route = Destination.AccountDetails.route,
+                arguments = listOf(
+                    navArgument("name") {
+                        type = NavType.StringType
+                    },
+                    navArgument("surname") {
+                        type = NavType.StringType
+                        nullable = true
+                    },
+                    navArgument("accountType") {
+                        type = NavType.StringType
+                        defaultValue = "User"
+                    }
+                ),
+                deepLinks = emptyList(),
+                enterTransition = { _, _ ->
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Down,
+                        animationSpec = tween(400)
+                    )
+                },
+                exitTransition = { _, _ ->
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Up,
+                        animationSpec = tween(400)
+                    )
+                }
+            ) {
+                val name = it.arguments?.getString("name")
+                val surname = it.arguments?.getString("surname")
+                val accountType = it.arguments?.getString("accountType")
+                AccountDetailsScreen(name, surname, accountType)
             }
         }
     }

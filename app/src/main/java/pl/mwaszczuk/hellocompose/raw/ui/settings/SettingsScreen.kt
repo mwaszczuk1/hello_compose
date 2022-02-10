@@ -57,7 +57,7 @@ fun SettingsScreen(
             border = null
         ) {
             Text(
-                text = stringResource(R.string.show_name),
+                text = stringResource(R.string.show_account_details),
                 color = White
             )
         }

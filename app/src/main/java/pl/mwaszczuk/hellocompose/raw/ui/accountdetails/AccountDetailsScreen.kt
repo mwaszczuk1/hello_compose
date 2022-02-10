@@ -1,4 +1,4 @@
-package pl.mwaszczuk.hellocompose.raw.ui.showname
+package pl.mwaszczuk.hellocompose.raw.ui.accountdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun AccountDetailsScreen(
-    name: String,
+    name: String?,
     surname: String?,
-    accountType: String
+    accountType: String?
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
